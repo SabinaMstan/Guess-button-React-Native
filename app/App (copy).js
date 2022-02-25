@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { View, TextInput, FlatList} from 'react-native';
 import {styles} from './utils/Styles';
 import Buttons from './components/Buttons';
@@ -7,22 +7,27 @@ import Message from './components/Message';
 
 const App = () => {
   const NR_COL = 5;
-  const [buttonCount, setButtonCount] = useState('');
+  const [buttonCount, setButtonCount] = useState(null);
+  const [buttonsArray, setButtonsArray] = useState([]);
   const [disableSubmit, setDisableSubmit] = useState(false);
   const [isWinner, setIsWinner] = useState('');
   const [state, setState] = useState(false);
-  const [buttonsArray, setButtonsArray] = useState([]);
 
-  const getButtonsArray = () => {
-    let winner = false;
-    let id = 0;
+  const getButtonsArray = (event) => {
+    event.preventDefault();
     const winButton = Math.floor(Math.random() * buttonCount + 1);
-    const array = Array(Number(buttonCount)).fill({'winner': winner});
-    setButtonsArray(array.fill({'winner': true}, winButton, winButton + 1));
+    let winner = false;
+    for (let i = 1; i <= buttonCount; ++i) {
+      if (i === winButton) {
+        winner = true;
+      }
+      let currentButton = {'winner': winner};
+      buttonsArray.push(currentButton);
+    }
     setButtonCount('');
     setDisableSubmit(true);
   }
-  
+
   const renderButtons = ({item}) => {
     return (
       <View>
