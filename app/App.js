@@ -22,14 +22,12 @@ const App = () => {
     setButtonCount('');
     setDisableSubmit(true);
   }
-  
-  const renderButtons = ({item}) => {
+
+  const renderButtons = buttonsArray.map((button) => {
     return (
-      <View>
-        <Buttons button = {item} isWinner = {setIsWinner} getState = {setState} />
-      </View>
-    );
-    }
+      <Buttons button = {button} isWinner = {setIsWinner} getState = {setState} />
+    )
+  });
 
   return (
     <View style = {styles.container}>
@@ -39,12 +37,7 @@ const App = () => {
         onPress = {getButtonsArray}
         disable = {disableSubmit}
       />
-      <FlatList
-       style = {{justifyContent: 'center'}}
-       data = {buttonsArray}
-       renderItem = {renderButtons}
-       numColumns = {NR_COL}
-      />
+      <ul>{renderButtons}</ul>
       <View>
       {
         state ? <Message winner = {isWinner} /> : null
